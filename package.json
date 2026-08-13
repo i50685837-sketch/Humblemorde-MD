@@ -1,0 +1,15 @@
+{
+  "name": "humblemorde-md",
+  "version": "1.0.0",
+  "description": "HUMBLEMORDE-MD WhatsApp Bot",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "pino": "latest"
+  }
+}
