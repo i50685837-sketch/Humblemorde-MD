@@ -4,7 +4,7 @@
 
 ### ⚡ WhatsApp Multi-Device Bot ⚡
 
-<img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/assets/bot.png" width="260">
+<img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/assets/bot.png" width="260">https://github.com/i50685837-sketch/Humblemorde-MD/blob/main/assets/file_00000000f90c82439afc68fae4cd5a30.png
 
 <br>
 
