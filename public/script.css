@@ -1,0 +1,135 @@
+const phoneInput = document.getElementById("phone");
+const generateBtn = document.getElementById("generateBtn");
+
+const loading = document.getElementById("loading");
+const result = document.getElementById("result");
+const errorBox = document.getElementById("error");
+
+const pairCode = document.getElementById("pairCode");
+const copyBtn = document.getElementById("copyBtn");
+
+const serverStatus = document.getElementById("serverStatus");
+
+
+function show(element) {
+  element.classList.remove("hidden");
+}
+
+function hide(element) {
+  element.classList.add("hidden");
+}
+
+
+async function checkServer() {
+
+  try {
+
+    const response = await fetch("/api/status");
+
+    if (!response.ok) {
+      throw new Error();
+    }
+
+    const data = await response.json();
+
+    serverStatus.textContent =
+      data.status === "online"
+        ? "Server Online"
+        : "Server Running";
+
+  } catch {
+
+    serverStatus.textContent = "Server Offline";
+
+  }
+
+}
+
+
+generateBtn.addEventListener("click", async () => {
+
+  const phone = phoneInput.value.trim();
+
+  hide(errorBox);
+  hide(result);
+
+  if (!phone) {
+
+    errorBox.textContent =
+      "Please enter your WhatsApp number.";
+
+    show(errorBox);
+
+    return;
+  }
+
+  generateBtn.disabled = true;
+  show(loading);
+
+  try {
+
+    const response = await fetch("/api/pair", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        phone: phone
+      })
+
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Unable to generate pairing code."
+      );
+    }
+
+    pairCode.textContent = data.code;
+
+    show(result);
+
+  } catch (error) {
+
+    errorBox.textContent = error.message;
+
+    show(errorBox);
+
+  } finally {
+
+    hide(loading);
+
+    generateBtn.disabled = false;
+
+  }
+
+});
+
+
+copyBtn.addEventListener("click", async () => {
+
+  const code = pairCode.textContent;
+
+  if (!code || code === "--------") {
+    return;
+  }
+
+  await navigator.clipboard.writeText(code);
+
+  copyBtn.textContent = "✅ COPIED";
+
+  setTimeout(() => {
+    copyBtn.textContent = "📋 COPY CODE";
+  }, 2000);
+
+});
+
+
+checkServer();
+
+setInterval(checkServer, 15000);
